@@ -1,11 +1,23 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ProductsModule } from './products/products.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProductsModule } from 'src/products/products.module';
 
 @Module({
-  imports: [ProductsModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'password',
+      database: 'e_shopper_db',
+      // DO NOT AUTO-LOAD IN PROD !!
+      autoLoadEntities: true,
+      synchronize: true,
+    }),
+    ProductsModule,
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
