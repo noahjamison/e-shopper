@@ -6,19 +6,19 @@ import { Product } from 'src/products/entities/product.entity';
 
 @EntityRepository(Variant)
 export class VariantRepository extends Repository<Variant> {
-  private logger = new Logger('VariantRepository', true);
+  private logger = new Logger('VariantRepository', { timestamp: true });
 
   async createVariant(
     createVariantDto: CreateVariantDto,
     product: Product,
   ): Promise<Variant> {
-    const { id, title, sku, weight, weight_unit } = createVariantDto;
+    const { id, title, sku, weight_value, weight_unit } = createVariantDto;
 
     const variant = this.create({
       id,
       title,
       sku,
-      weight,
+      weight_value,
       weight_unit,
       product,
     });

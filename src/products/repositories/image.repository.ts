@@ -6,7 +6,7 @@ import { CreateImageDto } from 'src/products/dto/create-image.dto';
 
 @EntityRepository(Image)
 export class ImageRepository extends Repository<Image> {
-  private logger = new Logger('ImageRepository', true);
+  private logger = new Logger('ImageRepository', { timestamp: true });
 
   async createImage(
     createImageDto: CreateImageDto,
@@ -25,7 +25,7 @@ export class ImageRepository extends Repository<Image> {
       switch (e.code) {
         case 'ER_DUP_ENTRY': {
           this.logger.error(
-            `Failed to insert image. An entry already exists with source: ${image.source}`,
+            `Failed to insert image. An entry already exists with id: ${image.id}`,
           );
 
           break;
@@ -33,7 +33,7 @@ export class ImageRepository extends Repository<Image> {
 
         default: {
           this.logger.error(
-            `Failed to create image with id "${image.id}"`,
+            `Failed to create image with source "${image.source}"`,
             e.stack,
           );
 

@@ -5,7 +5,7 @@ import { CreateProductDto } from 'src/products/dto/create-product.dto';
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
-  private logger = new Logger('ProductRepository', true);
+  private logger = new Logger('ProductRepository', { timestamp: true });
 
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
     const { code, title, vendor, bodyHtml } = createProductDto;
