@@ -1,5 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ProductsService } from './products.service';
+import { ProductsService } from 'src/products/products.service';
 import { Product } from 'src/products/entities/product.entity';
 import {
   ApiConsumes,
@@ -11,7 +11,7 @@ import {
 } from '@nestjs/swagger';
 import { ApiBadRequestResponse } from '@nestjs/swagger/dist/decorators/api-response.decorator';
 
-@ApiTags('products')
+@ApiTags('product')
 @ApiConsumes('application/json')
 @Controller('products')
 export class ProductsController {
