@@ -8,12 +8,12 @@ import { VariantRepository } from 'src/products/repositories/variant.repository'
 import { CreateVariantDto } from 'src/products/dto/create-variant.dto';
 import { Variant } from 'src/products/entities/variant.entity';
 import { ImageRepository } from 'src/products/repositories/image.repository';
-import { CreateImageDto } from "src/products/dto/create-image.dto";
-import { Image } from "src/products/entities/image.entity";
+import { CreateImageDto } from 'src/products/dto/create-image.dto';
+import { Image } from 'src/products/entities/image.entity';
 
 @Injectable()
 export class ProductsService implements OnModuleInit {
-  private logger = new Logger('ProductService', true);
+  private logger = new Logger('ProductService', { timestamp: true });
 
   constructor(
     @InjectRepository(ProductRepository)
@@ -31,44 +31,52 @@ export class ProductsService implements OnModuleInit {
     );
   }
 
+  // TODO: Maybe clean this up
   private async loadProductsFromUrl(url: string): Promise<void> {
     this.logger.log('Fetching new products');
 
     this.httpService.get(url).subscribe(async (response) => {
       this.logger.log(`Response received from ${url}`);
 
-      // TODO: Clean this up
       for (let i = 0; i < response.data.length; i++) {
+        let product: Product;
+
         const productJson = response.data[i];
 
-        const createProductDto = new CreateProductDto();
+        const createProductDto = new CreateProductDto(productJson);
 
-        createProductDto.code = productJson['id'];
-        createProductDto.title = productJson['title'];
-        createProductDto.vendor = productJson['vendor'];
-        createProductDto.bodyHtml = productJson['body_html'];
+        product = await this.createProduct(createProductDto);
 
-        const product: Product = await this.createProduct(createProductDto);
+        if (product === undefined) {
+          product = await this.productRepository.findOneOrFail({
+            where: { code: createProductDto.code },
+          });
+        }
 
         for (let j = 0; j < productJson['variants'].length; j++) {
+          let variant: Variant;
           const variantJson = productJson['variants'][j];
-          const createVariantDto = new CreateVariantDto();
 
-          createVariantDto.id = variantJson['id'];
-          createVariantDto.title = variantJson['title'];
-          createVariantDto.sku = variantJson['sku'];
-          createVariantDto.weight = variantJson['weight'];
-          createVariantDto.weight_unit = variantJson['weight_unit'];
+          const createVariantDto = new CreateVariantDto(variantJson);
 
-          const variant = await this.createVariant(createVariantDto, product);
+          variant = await this.createVariant(createVariantDto, product);
+
+          if (variant === undefined) {
+            variant = await this.variantRepository.findOneOrFail({
+              where: { id: createVariantDto.id },
+            });
+          }
 
           for (let k = 0; k < variantJson['images'].length; k++) {
             const imageJson = variantJson['images'][k];
-            const createImageDto = new CreateImageDto();
+            const createImageDto = new CreateImageDto(imageJson);
 
-            createImageDto.source = imageJson['src'];
+            const image = await this.imageRepository.findOne({
+              where: { source: createImageDto.source, variant: variant },
+            });
 
-            const image = await this.createImage(createImageDto, variant);
+            if (image === undefined)
+              await this.createImage(createImageDto, variant);
           }
         }
       }
