@@ -32,7 +32,6 @@ export class ProductsService implements OnModuleInit {
     );
   }
 
-  // TODO: Maybe clean this up
   async loadProductsFromUrl(url: string): Promise<void> {
     this.logger.log('Fetching new products');
 

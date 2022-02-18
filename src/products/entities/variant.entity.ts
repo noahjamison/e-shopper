@@ -42,7 +42,6 @@ export class Variant {
   @Column({ default: 0 })
   inventory_quantity: number;
 
-  // TODO: update this somehow based on availability
   @ApiProperty({
     description: 'True if inventory > 0, false otherwise',
     default: false,
