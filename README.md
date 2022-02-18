@@ -3,11 +3,11 @@
 An app that simulates some features of an e-commerce store.
 
 ## Table of Contents
-* General Info
-* Technologies
-* Setup
-* Swagger + Using the App
-* Testing
+* [General Info](#general-info)
+* [Technologies](#technologies)
+* [Setup](#setup)
+* [Swagger + Using the App](#swagger-and-using-the-app)
+* [Testing](#testing)
 
 ## General Info
 Welcome to e-shopper! This is a simple demo application meant to mimic a couple basic features that can be found on a typical e-commerce site.
@@ -38,7 +38,7 @@ The project is configured to use live reloading when running in Docker. Any chan
 
 You can also run the NestJS portion of the app by running `npm run start`, but you will need to ensure that the database is running and that your local environment has the correct dependencies.
 
-## Swagger + Using the App
+## Swagger and Using the App
 This app was configured to use [Swagger](https://swagger.io/).
 
 With the app running, navigate to `http://localhost:3434/api/#/` to open the Swagger UI. From here, you can try out the endpoints in real-time by making HTTP requests. These responses will provide the persisted data from the database.
