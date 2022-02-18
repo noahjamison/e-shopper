@@ -17,8 +17,10 @@ export class CreateProductDto {
   @IsNotEmpty()
   variants: CreateVariantDto[];
 
-  // TODO: Add constructor?
-  // constructor(partial: Partial<CreateProductDto>) {
-  //   Object.assign(this, partial);
-  // }
+  constructor(json: Map<string, any>) {
+    this.code = json['id'];
+    this.title = json['title'];
+    this.vendor = json['vendor'];
+    this.bodyHtml = json['body_html'];
+  }
 }
