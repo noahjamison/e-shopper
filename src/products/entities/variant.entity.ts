@@ -2,6 +2,7 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 import { Product } from 'src/products/entities/product.entity';
 import { Image } from 'src/products/entities/image.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Inventory } from "src/products/entities/inventory.entity";
 
 @Entity()
 export class Variant {
@@ -25,7 +26,7 @@ export class Variant {
   @ApiProperty({ type: 'string' })
   weight_unit: string;
 
-  @ManyToOne(() => Product, (product) => product.variants, { eager: false })
+  @ManyToOne(() => Product, (product) => product.variants, { eager: true })
   product: Product;
 
   @OneToMany(() => Image, (image) => image.variant, { eager: false })
@@ -38,6 +39,7 @@ export class Variant {
     type: 'integer',
     format: 'int64',
   })
+  @Column({ default: 0 })
   inventory_quantity: number;
 
   @ApiProperty({
@@ -46,4 +48,12 @@ export class Variant {
     type: 'boolean',
   })
   available: boolean;
+
+  toInventoryEntity(): Inventory {
+    return new Inventory({
+      productId: this.product.code,
+      variantId: this.id,
+      stock: this.inventory_quantity,
+    });
+  }
 }

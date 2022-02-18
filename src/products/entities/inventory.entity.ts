@@ -8,5 +8,9 @@ export class Inventory {
   variantId: string;
 
   @ApiProperty({ type: 'integer', format: 'int64' })
-  stock: string;
+  stock: number;
+
+  constructor(partial: Partial<Inventory>) {
+    Object.assign(this, partial);
+  }
 }

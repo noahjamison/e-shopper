@@ -10,6 +10,7 @@ import { Variant } from 'src/products/entities/variant.entity';
 import { ImageRepository } from 'src/products/repositories/image.repository';
 import { CreateImageDto } from 'src/products/dto/create-image.dto';
 import { Image } from 'src/products/entities/image.entity';
+import { Inventory } from "src/products/entities/inventory.entity";
 
 @Injectable()
 export class ProductsService implements OnModuleInit {
@@ -81,6 +82,19 @@ export class ProductsService implements OnModuleInit {
         }
       }
     });
+  }
+
+  async getInventory(): Promise<Inventory[]> {
+    const variants = await this.variantRepository.find();
+
+    const inventories: Inventory[] = [];
+
+    // NOTE: forEach is slow, but provides better readability
+    variants.forEach((variant) => {
+      inventories.push(variant.toInventoryEntity());
+    });
+
+    return inventories;
   }
 
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
