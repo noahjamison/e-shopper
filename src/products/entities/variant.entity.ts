@@ -1,8 +1,8 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
-import { Product } from 'src/products/entities/product.entity';
-import { Image } from 'src/products/entities/image.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { Inventory } from "src/products/entities/inventory.entity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { Product } from './product.entity';
+import { Image } from './image.entity';
+import { Inventory } from './inventory.entity';
 
 @Entity()
 export class Variant {
@@ -42,12 +42,17 @@ export class Variant {
   @Column({ default: 0 })
   inventory_quantity: number;
 
+  // TODO: update this somehow based on availability
   @ApiProperty({
     description: 'True if inventory > 0, false otherwise',
     default: false,
     type: 'boolean',
   })
   available: boolean;
+
+  constructor(partial: Partial<Variant>) {
+    Object.assign(this, partial);
+  }
 
   toInventoryEntity(): Inventory {
     return new Inventory({

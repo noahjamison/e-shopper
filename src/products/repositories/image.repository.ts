@@ -1,8 +1,8 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { InternalServerErrorException, Logger } from '@nestjs/common';
-import { Image } from 'src/products/entities/image.entity';
-import { Variant } from 'src/products/entities/variant.entity';
-import { CreateImageDto } from 'src/products/dto/create-image.dto';
+import { Image } from '../entities/image.entity';
+import { Variant } from '../entities/variant.entity';
+import { CreateImageDto } from '../dto/create-image.dto';
 
 @EntityRepository(Image)
 export class ImageRepository extends Repository<Image> {

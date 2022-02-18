@@ -1,8 +1,8 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { InternalServerErrorException, Logger } from '@nestjs/common';
-import { Variant } from 'src/products/entities/variant.entity';
-import { CreateVariantDto } from 'src/products/dto/create-variant.dto';
-import { Product } from 'src/products/entities/product.entity';
+import { Variant } from '../entities/variant.entity';
+import { CreateVariantDto } from '../dto/create-variant.dto';
+import { Product } from '../entities/product.entity';
 
 @EntityRepository(Variant)
 export class VariantRepository extends Repository<Variant> {

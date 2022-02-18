@@ -1,16 +1,16 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { HttpService } from '@nestjs/axios';
-import { Product } from 'src/products/entities/product.entity';
+import { Product } from './entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProductRepository } from 'src/products/repositories/product.repository';
-import { VariantRepository } from 'src/products/repositories/variant.repository';
-import { CreateVariantDto } from 'src/products/dto/create-variant.dto';
-import { Variant } from 'src/products/entities/variant.entity';
-import { ImageRepository } from 'src/products/repositories/image.repository';
-import { CreateImageDto } from 'src/products/dto/create-image.dto';
-import { Image } from 'src/products/entities/image.entity';
-import { Inventory } from "src/products/entities/inventory.entity";
+import { ProductRepository } from './repositories/product.repository';
+import { VariantRepository } from './repositories/variant.repository';
+import { CreateVariantDto } from './dto/create-variant.dto';
+import { Variant } from './entities/variant.entity';
+import { ImageRepository } from './repositories/image.repository';
+import { CreateImageDto } from './dto/create-image.dto';
+import { Image } from './entities/image.entity';
+import { Inventory } from './entities/inventory.entity';
 
 @Injectable()
 export class ProductsService implements OnModuleInit {
@@ -33,7 +33,7 @@ export class ProductsService implements OnModuleInit {
   }
 
   // TODO: Maybe clean this up
-  private async loadProductsFromUrl(url: string): Promise<void> {
+  async loadProductsFromUrl(url: string): Promise<void> {
     this.logger.log('Fetching new products');
 
     this.httpService.get(url).subscribe(async (response) => {
