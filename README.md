@@ -16,7 +16,7 @@ On startup, the app will automatically load the necessary product data and inser
 
 The data will persist between reboots, so the database will need to be manually cleared if needed. If any data is provided from the URL source that already exists in the database, the app will simply not insert it and instead log an exception. However, it will insert any new variants or images that are found even if the product or variant already exists in the database.
 
-NOTE: The HTML that is inserted is purposely not escaped because all interactions with the database are handled using prepared statements. There would be a risk if the HTML was being rendered or presented to an end-user, in which case some handling for XXS, SQL Injection, etc. would be added where necessary.
+NOTE: The HTML that is inserted is purposely not escaped because all interactions with the database are handled using prepared statements. There would be a risk if the HTML was being rendered or presented to an end-user, in which case some handling for XSS, SQL Injection, etc. would be added where necessary.
 
 ## Technologies
 * [Node.js](https://www.nodejs.org) using [NestJS](https://nestjs.com/) on top of [Express](https://expressjs.com/)
