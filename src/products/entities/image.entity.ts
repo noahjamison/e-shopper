@@ -1,6 +1,6 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Variant } from 'src/products/entities/variant.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Variant } from './variant.entity';
 
 @Entity()
 export class Image {
@@ -17,4 +17,8 @@ export class Image {
   @Column()
   @ApiProperty({ type: 'string' })
   source: string;
+
+  constructor(partial: Partial<Image>) {
+    Object.assign(this, partial);
+  }
 }

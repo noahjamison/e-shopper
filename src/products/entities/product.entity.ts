@@ -1,6 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
-import { Variant } from 'src/products/entities/variant.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { Variant } from './variant.entity';
 
 @Entity()
 export class Product {
@@ -23,4 +23,8 @@ export class Product {
   @OneToMany(() => Variant, (variant) => variant.product, { eager: false })
   @ApiProperty({ type: 'array', items: { type: 'variant' } })
   variants: Variant[];
+
+  constructor(partial: Partial<Product>) {
+    Object.assign(this, partial);
+  }
 }
